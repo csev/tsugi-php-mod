@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../config.php";
+require_once "../config.php";
 require_once "webauto-old.php";
 require_once "misc.php";
 use Goutte\Client;

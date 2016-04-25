@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../config.php";
+require_once "../config.php";
 require_once "webauto.php";
 use Goutte\Client;
 use \Tsugi\Util\Mersenne_Twister;

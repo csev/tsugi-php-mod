@@ -1,5 +1,5 @@
 <?php
-require_once "../../config.php";
+require_once "../config.php";
 require_once "data/data_util.php";
 require_once "data/names.php";
 require_once "data/locations.php";

@@ -1,5 +1,5 @@
 <?php
-require_once "../../config.php";
+require_once "../config.php";
 
 // http://imsglobal.github.io/casa/learn/tutorial/publish/
 // https://gist.github.com/pfgray/f2d6b4414bdbb84bd75a

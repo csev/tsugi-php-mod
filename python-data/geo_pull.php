@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../config.php";
+require_once "../config.php";
 \Tsugi\Core\LTIX::getConnection();
 require_once "data/data_util.php";
 require_once "data/names.php";
