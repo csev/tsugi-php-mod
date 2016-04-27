@@ -1,5 +1,7 @@
 <?php
 
-// Since we are really requiring from one folder lower
-require_once "../../config.php";
+// Make this require relative to the parent of the current folder
+// http://stackoverflow.com/questions/24753758
+
+require_once dirname(__DIR__)."/config.php";
 
