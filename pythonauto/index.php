@@ -515,7 +515,7 @@ if ( isset($LINK->title) ) {
         <p>
         Remember that this is an in-browser Python emulator and as your programs get
         more sophisticated, you may encounter situations where this Python emulator
-        gives <i>different</i> results than the real Python 2.7
+        gives <i>different</i> results than the real Python 
         running on your laptop, desktop, or server.  It is intended to be used
         for simple programs being developed by beginning programmers while they
         are learning to program.
