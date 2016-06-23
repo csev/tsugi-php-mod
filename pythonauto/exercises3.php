@@ -328,6 +328,7 @@ print(lst)
 "append" => "You should use append() to add the word to the list if it is not there.",
 "open" => "You need to use open() to open the file.",
 "sort" => "You need to use sort() to sort the list before you print it out.",
+"!'yonder'" => "You should not put the output data in strings",
 "for" => "You need two for loops. One for the lines and one for the words on each line.")
 ),
 
