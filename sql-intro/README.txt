@@ -1,3 +1,12 @@
+
+This is being split into two autograders. The MySQL autograders have moved to:
+
+https://github.com/csev/php-intro/
+
+
+The SQLite autograders will be moved to pythonlearn.com eventually
+
+
 Names from:
 
 
