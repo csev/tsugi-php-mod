@@ -34,6 +34,27 @@ for a the sample single module:
 
     https://github.com/csev/tsugi-php-module
 
+Multiple Repositories
+---------------------
+
+We are moving some of the modules into their own repositories - they 
+are maintained here for historical purposes for installations that have
+hard-coded links to precise tool paths.  Here are the folders and their
+actual repositoyies:
+
+    grades       https://github.com/tsugitools/grades
+    peer-grade   https://github.com/tsugitools/peer-grade
+
+Make sure to commit these changes in the actual repositories and then
+pull the modules in here using the following commands
+
+    git subtree pull --prefix=grades https://github.com/tsugitools/grades master
+    git push origin master
+
+The initial setup of the subtree folder uses the following command:
+
+    git subtree add --prefix==grades https://github.com/tsugitools/grades master
+
 Obsolete Versions
 -----------------
 
