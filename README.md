@@ -67,4 +67,8 @@ for a while
 eventually the SQLite versions of the autograder will move to pythonlearn
 * intro-html5 Is now in https://github.com/cvanlent/intro-html5
 
+References
+----------
+
+[1] https://help.github.com/articles/splitting-a-subfolder-out-into-a-new-repository/
 
