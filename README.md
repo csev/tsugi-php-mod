@@ -53,7 +53,7 @@ pull the modules in here using the following commands
 
 The initial setup of the subtree folder uses the following command:
 
-    git subtree add --prefix==grades https://github.com/tsugitools/grades master
+    git subtree add --prefix=grades https://github.com/tsugitools/grades master
 
 Obsolete Versions
 -----------------
