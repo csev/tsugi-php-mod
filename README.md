@@ -40,7 +40,7 @@ Multiple Repositories
 We are moving some of the modules into their own repositories - they 
 are maintained here for historical purposes for installations that have
 hard-coded links to precise tool paths.  Here are the folders and their
-actual repositoyies:
+actual repositories:
 
     grades       https://github.com/tsugitools/grades
     peer-grade   https://github.com/tsugitools/peer-grade
