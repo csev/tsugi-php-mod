@@ -14,12 +14,41 @@ function loadAssignment()
     global $CFG, $PDOX, $LINK;
     $cacheloc = 'peer_assn';
     $row = Cache::check($cacheloc, $LINK->id);
-    if ( $row != false ) return $row;
+    if ( $row != false && $row['json'] != 'null' ) return $row;
     $stmt = $PDOX->queryDie(
         "SELECT assn_id, json FROM {$CFG->dbprefix}peer_assn WHERE link_id = :ID",
         array(":ID" => $LINK->id)
     );
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $custom = LTIX::customGet('config');
+    // Check custom for errors and make it pretty
+    if ( strlen($custom) > 1 ) {
+        $decode = json_decode($custom);
+        if ( $decode === null ) {
+            error_log('Bad custom_config\n'.$custom);
+            $custom = null;
+        } else {
+            $pretty = json_encode($decode,JSON_PRETTY_PRINT);
+            $custom = $pretty;
+        }
+    }
+    if ( $row === false && strlen($custom) > 1 ) {
+        $stmt = $PDOX->queryReturnError(
+            "INSERT INTO {$CFG->dbprefix}peer_assn
+                (link_id, json, created_at, updated_at)
+                VALUES ( :ID, :JSON, NOW(), NOW())
+                ON DUPLICATE KEY UPDATE json = :JSON, updated_at = NOW()",
+            array(
+                ':JSON' => $custom,
+                ':ID' => $LINK->id)
+            );
+        Cache::clear("peer_assn");
+        $stmt = $PDOX->queryDie(
+            "SELECT assn_id, json FROM {$CFG->dbprefix}peer_assn WHERE link_id = :ID",
+            array(":ID" => $LINK->id)
+        );
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     $row['json'] = upgradeSubmission($row['json'] );
     Cache::set($cacheloc, $LINK->id, $row);
     return $row;
