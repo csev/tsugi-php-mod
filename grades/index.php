@@ -64,11 +64,11 @@ if ( $USER->instructor && isset($_GET['viewall'] ) ) {
     $orderfields = array("L.title", "R.note", "R.updated_at", "retrieved_at");
     $user_sql =
         "SELECT R.result_id AS result_id, L.title as title, R.grade AS grade, R.note AS note,
-            R.updated_at as updated_at, server_grade, retrieved_at, sourcedid, service_key as service,
+            R.updated_at as updated_at, server_grade, retrieved_at, sourcedid, result_url, service_key as service,
             TIMESTAMPDIFF(SECOND,retrieved_at,NOW()) as diff_in_seconds, NOW() AS time_now
         FROM {$p}lti_result AS R
         JOIN {$p}lti_link as L ON R.link_id = L.link_id
-        JOIN {$p}lti_service AS S ON R.service_id = S.service_id
+        LEFT JOIN {$p}lti_service AS S ON R.service_id = S.service_id
         WHERE R.user_id = :UID AND L.context_id = :CID AND R.grade IS NOT NULL";
     $user_info = User::loadUserInfoBypass($user_id);
 }
@@ -86,6 +86,7 @@ if ( $USER->instructor ) {
 // View
 $OUTPUT->header();
 $OUTPUT->bodyStart();
+$OUTPUT->topNav();
 $OUTPUT->flashMessages();
 
 if ( $USER->instructor ) {
@@ -130,6 +131,7 @@ if ( $user_sql !== false ) {
     // echo("<pre>\n$newsql\n</pre>\n");
     $rows = $PDOX->allRowsDie($newsql, $query_parms);
 
+    // echo("<pre>\n");var_dump($rows);echo("</pre>\n");
     // Scan to see if there are any un-retrieved server grades
     $newrows = array();
     foreach ( $rows as $row ) {
@@ -154,8 +156,11 @@ if ( $user_sql !== false ) {
         $RETRIEVE_INTERVAL = 14400; // Four Hours
         $newnote['note'] = " "+$diff;
 
-        if ( !isset($row['retrieved_at']) || $row['retrieved_at'] < $row['updated_at'] ||
-            $diff > $RETRIEVE_INTERVAL ) {
+        $remote_grade = $row['result_url'] != null || ($row['sourcedid'] != null && $row['service_url'] != null);
+
+        if ( $remote_grade && ( !isset($row['retrieved_at']) || $row['retrieved_at'] < $row['updated_at'] ||
+            $diff > $RETRIEVE_INTERVAL ) ) {
+
             $server_grade = LTIX::gradeGet($row);
             if ( is_string($server_grade)) {
                 echo('<pre class="alert alert-danger">'."\n");
@@ -184,7 +189,7 @@ if ( $user_sql !== false ) {
         }
 
         // Now check to see if we need to update the server_grade
-        if ( $row['server_grade'] < $row['grade'] ) {
+        if ( $remote_grade && $row['server_grade'] < $row['grade'] ) {
             error_log("Patching server grade: ".session_id()." result_id=".$row['result_id']."\n".
                     "grade=".$row['grade']." updated=".$row['updated_at']."\n".
                     "server_grade=".$row['server_grade']." retrieved=".$row['retrieved_at']);
