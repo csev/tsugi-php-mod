@@ -44,6 +44,7 @@ actual repositories:
 
     grades       https://github.com/tsugitools/grades
     peer-grade   https://github.com/tsugitools/peer-grade
+    gift         https://github.com/tsugitools/gift
 
 Make sure to commit these changes in the actual repositories and then
 pull the modules in here using the following commands
