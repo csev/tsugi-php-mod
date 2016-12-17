@@ -56,6 +56,8 @@ The initial setup of the subtree folder uses the following command:
 
     git subtree add --prefix=grades https://github.com/tsugitools/grades master
 
+See the file CONVERT.txt for a sample conversion log
+
 Obsolete Versions
 -----------------
 

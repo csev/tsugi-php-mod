@@ -1,0 +1,163 @@
+$ git remote -v
+origin	https://github.com/csev/tsugi-php-mod.git (fetch)
+origin	https://github.com/csev/tsugi-php-mod.git (push)
+
+$ cd /tmp
+
+2379589895:tmp csev$ git clone https://github.com/csev/tsugi-php-mod.git
+Cloning into 'tsugi-php-mod'...
+remote: Counting objects: 4559, done.
+remote: Total 4559 (delta 0), reused 0 (delta 0), pack-reused 4559
+Receiving objects: 100% (4559/4559), 3.74 MiB | 1.27 MiB/s, done.
+Resolving deltas: 100% (2766/2766), done.
+Checking connectivity... done.
+
+2379589895:tmp csev$ cd tsugi-php-mod/
+
+$ git filter-branch --prune-empty --subdirectory-filter gift master
+Rewrite b8dab1468736af1a7a0ba92662c5eb8f7fdd554f (1/26) 
+...
+Ref 'refs/heads/master' was rewritten
+
+$ git status
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 26 and 846 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+nothing to commit, working tree clean
+$ ls
+LICENSE			grades.php		quiz.php
+README.md		index.php		register.php
+ajax-loader.gif		lti_config.php		sample.php
+configure.php		make_qti.php		templates.php
+convert.php		make_zip.php		util.php
+export			makeassess.php		viewxml.php
+getzip.php		parse.php		waiting.php
+grade-detail.php	process.php		xml
+$ git remote -v
+origin	https://github.com/csev/tsugi-php-mod.git (fetch)
+origin	https://github.com/csev/tsugi-php-mod.git (push)
+$ git remote set-url origin https://github.com/tsugitools/gift.git
+$ git remote -v
+origin	https://github.com/tsugitools/gift.git (fetch)
+origin	https://github.com/tsugitools/gift.git (push)
+
+# Note - I made the mistake of adding a README.md so this
+# next command fails and I have to take the longer way
+
+$ git push -u origin master
+To https://github.com/tsugitools/gift.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/tsugitools/gift.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+# The longer way
+
+$ git pull
+warning: no common commits
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From https://github.com/tsugitools/gift
+ + 27f4eb3...744e364 master     -> origin/master  (forced update)
+fatal: refusing to merge unrelated histories
+
+$ git push -u origin master
+To https://github.com/tsugitools/gift.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/tsugitools/gift.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+$ git status
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 26 and 1 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+nothing to commit, working tree clean
+
+# There is always a way :)
+
+$ git push --force -u origin master
+Counting objects: 129, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (59/59), done.
+Writing objects: 100% (129/129), 58.13 KiB | 0 bytes/s, done.
+Total 129 (delta 71), reused 101 (delta 70)
+remote: Resolving deltas: 100% (71/71), done.
+To https://github.com/tsugitools/gift.git
+ + 744e364...32147d3 master -> master (forced update)
+Branch master set up to track remote branch master from origin.
+
+$ git pull
+Already up-to-date.
+
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working tree clean
+
+# Go to the old repo and pull in the subtree
+
+Last login: Sat Dec 17 08:38:06 on ttys003
+In .bash_profile
+$ pwd
+/Applications/MAMP/htdocs/tsugi-php-mod
+
+$ rm -r gift
+
+$ git commit -a
+[master a757978] Remove gift
+ 29 files changed, 1 insertion(+), 5300 deletions(-)
+ delete mode 100644 gift/LICENSE
+ delete mode 100644 gift/README.md
+ delete mode 100644 gift/ajax-loader.gif
+...
+ delete mode 100644 gift/xml/assessment_meta.xml
+ delete mode 100644 gift/xml/ims_qtiasiv1p2p1.xsd
+ delete mode 100644 gift/xml/imsmanifest.xml
+
+$ git push
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 317 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/csev/tsugi-php-mod.git
+   27f4eb3..a757978  master -> master
+
+$ git subtree add --prefix=gift https://github.com/tsugitools/gift master
+git fetch https://github.com/tsugitools/gift master
+warning: no common commits
+remote: Counting objects: 132, done.
+remote: Compressing objects: 100% (61/61), done.
+remote: Total 132 (delta 73), reused 128 (delta 71), pack-reused 0
+Receiving objects: 100% (132/132), 58.55 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (73/73), done.
+From https://github.com/tsugitools/gift
+ * branch            master     -> FETCH_HEAD
+Added dir 'gift'
+
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 28 commits.
+  (use "git push" to publish your local commits)
+
+$ git push
+Counting objects: 132, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (61/61), done.
+Writing objects: 100% (132/132), 58.81 KiB | 0 bytes/s, done.
+Total 132 (delta 72), reused 130 (delta 71)
+remote: Resolving deltas: 100% (72/72), completed with 1 local objects.
+To https://github.com/csev/tsugi-php-mod.git
+   a757978..ac4cdad  master -> master
+
