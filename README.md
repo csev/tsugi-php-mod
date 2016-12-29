@@ -69,7 +69,8 @@ for a while
 * sql-intro The MySQL part of this module is now in https://github.com/csev/php-intro/
 eventually the SQLite versions of the autograder will move to pythonlearn
 * intro-html5 is now in https://github.com/cvanlent/intro-html5
-* map is now https://github.com/tsugitools/tsugi-php-map 
+* map is now https://github.com/tsugitools/map 
+* attend is now https://github.com/tsugitools/attend 
 
 
 References
