@@ -65,12 +65,15 @@ Some of the code that was historically in this repository has moved.  Some of
 the folders have been deleted here - others are here for archival purposes
 for a while
 
+* grades is now https://github.com/tsugitools/grades 
+* peer-grade is now https://github.com/tsugitools/peer-grade 
+* map is now https://github.com/tsugitools/map 
+* attend is now https://github.com/tsugitools/attend 
+
 * php-intro is now moved into the mod folder of https://github.com/csev/php-intro/
 * sql-intro The MySQL part of this module is now in https://github.com/csev/php-intro/
 eventually the SQLite versions of the autograder will move to pythonlearn
 * intro-html5 is now in https://github.com/cvanlent/intro-html5
-* map is now https://github.com/tsugitools/map 
-* attend is now https://github.com/tsugitools/attend 
 
 
 References
